@@ -45,7 +45,7 @@ def eea(a,b):
 
 g,x,y = eea(e,tot)
 d = x % tot
-print(d)
+print(f"The value of d is {d}")
 
 #power mod function
 def powerMod(a, b, n):
@@ -60,4 +60,5 @@ def powerMod(a, b, n):
         a = (a*a) % n                 
     return result
 
-print(powerMod(3,13,7))
+print(f"The value of m is {powerMod(3,13,7)}")
+
