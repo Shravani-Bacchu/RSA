@@ -5,19 +5,6 @@ q = int(input("Enter another integer number"))
 n = p *q
 phi = (p-1) * (q-1)
 tot = phi
-factors = []
-# checks the factors of phi -> should be utilised later for checking if the value of e chosen is valid?
-while  phi % 2 == 0:
-    factors.append(2)
-    phi //= 2
-for i in range(3, int(math.sqrt(phi)) + 1, 2):
-    while phi % i == 0:
-        factors.append(i)
-        phi //= i
-if phi > 2:
-    factors.append(phi)
-
-print(factors)
 # greatest common divisor -> think this is what's used to see if e is valid but idk 
 def gcd(p, q):
     while q != 0:
@@ -34,6 +21,7 @@ else:
     while not (is_valid_e(e, tot) and (1 < e < tot)):
         e = int(input("Enter a value of e"))
     print(f"The value of e chosen is {e}")
+
 #extended eulers algorithm 
 def eea(a,b):
     if b==0:
