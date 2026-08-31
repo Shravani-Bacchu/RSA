@@ -1,18 +1,24 @@
 import math
+import random
+
 # initialises variables for inputs
 p = int(input("Enter an integer number"))
 q = int(input("Enter another integer number"))
-n = p *q
-phi = (p-1) * (q-1)
+n = p * q
+phi = (p - 1) * (q - 1)
 tot = phi
-# greatest common divisor -> think this is what's used to see if e is valid but idk 
+
+
+# greatest common divisor -> think this is what's used to see if e is valid but idk
 def gcd(p, q):
     while q != 0:
         p, q = q, p % q
     return p
 
+
 def is_valid_e(e, tot):
     return gcd(e, tot) == 1
+
 
 e = int(input("Enter a value of e"))
 if is_valid_e(e, tot) and (1 < e < tot):
@@ -22,21 +28,24 @@ else:
         e = int(input("Enter a value of e"))
     print(f"The value of e chosen is {e}")
 
-#extended eulers algorithm 
-def eea(a,b):
-    if b==0:
-        return (a,1,0)
-    g,x1,y1 = eea(b, a%b)
+
+# extended eulers algorithm
+def eea(a, b):
+    if b == 0:
+        return (a, 1, 0)
+    g, x1, y1 = eea(b, a % b)
     x = y1
-    y = x1 - (a//b) * y1
-    return g, x ,y 
+    y = x1 - (a // b) * y1
+    return g, x, y
 
-g,x,y = eea(e,tot)
+
+g, x, y = eea(e, tot)
 d = x % tot
-print(f"The value of d is {d}")
 
-#power mod function
+
+# power mod function
 def powerMod(a, b, n):
+    print(f"The value of d is {d}")
     if n == 1:
         return 0
     result = 1
@@ -44,9 +53,31 @@ def powerMod(a, b, n):
     while b > 0:
         if b % 2 == 1:
             result = (result * a) % n
-        b = b //2
-        a = (a*a) % n                 
+        b = b // 2
+        a = (a * a) % n
     return result
 
-print(f"The value of m is {powerMod(3,13,7)}")
 
+# primality-test function
+def primality_test(n):
+    if n < 2:
+        return False
+    elif n in (2, 3):
+        return True
+    elif n % 2 == 0:
+        return False
+    return None
+
+
+def main():
+    mode = input("Enter 'E' or 'D' for the encrypt function or the decrypt function")
+    if mode =="E":
+        message = int(input("Enter the message to be encrypted"))
+        encrypted_msg = powerMod(message,e,n)
+        print(encrypted_msg)
+    elif mode == "D":
+        encrypted_msg = int(input("Enter the message to be decrypted"))
+        decrypted_function = powerMod(encrypted_msg,d,n)
+        print(decrypted_function)
+    else:
+        print("Invalid Function!, try again")
