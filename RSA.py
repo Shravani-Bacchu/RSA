@@ -2,19 +2,19 @@ import math
 # initialises variables for inputs
 p = int(input("Enter an integer number"))
 q = int(input("Enter another integer number"))
+e = int(input("Enter a value of e"))
 n = p *q
 phi = (p-1) * (q-1)
 tot = phi
-# greatest common divisor -> think this is what's used to see if e is valid but idk 
+# function to find the greatest common divisor 
 def gcd(p, q):
     while q != 0:
         p, q = q, p % q
     return p
-
+# function to check whether e is a valid exponent
 def is_valid_e(e, tot):
     return gcd(e, tot) == 1
 
-e = int(input("Enter a value of e"))
 if is_valid_e(e, tot) and (1 < e < tot):
     print("Yay, that works!")
 else:
@@ -49,4 +49,12 @@ def powerMod(a, b, n):
     return result
 
 print(f"The value of m is {powerMod(3,13,7)}")
+
+#primality test
+def primality(n):
+    for i in range(2,n-1):
+        if n%i ==0:
+            return False
+    return True
+
 
