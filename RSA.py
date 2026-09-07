@@ -60,7 +60,6 @@ d = x % tot
 
 # power mod function
 def powerMod(a, b, n):
-    print(f"The value of d is {d}")
     if n == 1:
         return 0
     result = 1
@@ -75,10 +74,33 @@ def powerMod(a, b, n):
 
 <<<<<<< HEAD
 #primality test
-def primality(n):
-    for i in range(2,n-1):
-        if n%i ==0:
+def primality_check(n, k=20):
+    if n < 2:
+        return False
+    if n == 2 or n == 3:
+        return True
+    if n % 2 == 0:
+        return False
+
+    r = 0
+    d = n - 1
+    while d % 2 == 0:
+        d = d // 2
+        r += 1
+
+    for _ in range(k):                    
+        a = random.randint(2, n - 2)
+        x = powerMod(a, d, n)
+        if x == 1 or x == n - 1:
+            continue                      
+
+        for _ in range(r - 1):
+            x = powerMod(x, 2, n)
+            if x == n - 1:
+                break
+        else:
             return False
+
     return True
 
 
