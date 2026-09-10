@@ -50,6 +50,15 @@ def powerMod(a, b, n):
         a = (a * a) % n
     return result
 
+#naive_factoring_attack
+def naive_attack(n):
+    for i in range(2,math.isqrt(n) + 1):
+        if n % i ==0:
+            return i, n//i
+    return "n is prime"
+
+
+
 
 # primality test
 def primality_check(n, k=20):
@@ -98,19 +107,31 @@ def main():
     phi = (p - 1) * (q - 1)
     e = int(input("Enter a value of e: "))
     while not (is_valid_e(e, phi) and 1 < e < phi):
+    n = p*q
+    phi = (p-1) * (q-1)
+    print(f"p = {p}, q = {q}, n = {n}")
+    e = int(input("Enter a value of e: "))         
+    while not (is_valid_e(e, phi) and 1 < e < phi): 
         e = int(input("Enter a value of e: "))
     print(f"The value of e chosen is {e}")
     g, x, y = eea(e, phi)
     d = x % phi
-    mode = input("Enter E or D for the encrypt or decrypt ")
+    mode = input("Enter E for encryption, D for decryption and N for the naive factoring attack")
     if mode.upper() == "E":
         message = int(input("Enter the message to be encrypted"))
         encrypted_message = powerMod(message,e,n)
         print(f"The encrypted message is {encrypted_message}")
-    if mode.upper() == "D":
+    elif mode.upper() == "D":
         message = int(input("Enter the message to be decrypted"))
         decrypted_message = powerMod(message,d,n)
         print(f"The decrypted message is {decrypted_message}")
+    elif mode.upper() == "N":
+        p,q = naive_attack(n)
+        phi = (p-1) * (q-1)
+        g,x,y = eea(e,phi)
+        d_recovered = x % phi
+        print(f"The actual value of d is {d}")
+        print(f"The value of d is {d_recovered}")
 
 
 main()
