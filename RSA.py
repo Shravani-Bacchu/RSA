@@ -22,15 +22,8 @@ def is_valid_e(e, tot):
 
 
 e = int(input("Enter a value of e"))
-if is_valid_e(e, tot) and (1 < e < tot):
-    print("Yay, that works!")
-else:
-    while not (is_valid_e(e, tot) and (1 < e < tot)):
-        e = int(input("Enter a value of e"))
-    print(f"The value of e chosen is {e}")
-
-
 # extended eulers algorithm
+
 def eea(a, b):
     if b == 0:
         return (a, 1, 0)
@@ -91,9 +84,9 @@ def primality_check(n, k=20):
 
 def generate_bits(bits, k=20):
     while True:
-        candidate = random.randbits(bits)
-        candidate |= (1 << bits - 1) | 1
-        if primality_check(candidate, k):
+        candidate = random.getrandbits(bits)
+        candidate |= (1 << bits -1) | 1
+        if primality_check(candidate, k ):
             return candidate
 
 
@@ -109,3 +102,15 @@ def main():
     print(f"The value of e chosen is {e}")
     g, x, y = eea(e, phi)
     d = x % phi
+    mode = input("Enter E or D for the encrypt or decrypt ")
+    if mode.upper() == "E":
+        message = int(input("Enter the message to be encrypted"))
+        encrypted_message = powerMod(message,e,n)
+        print(f"The encrypted message is {encrypted_message}")
+    if mode.upper() == "D":
+        message = int(input("Enter the message to be decrypted"))
+        decrypted_message = powerMod(message,d,n)
+        print(f"The decrypted message is {decrypted_message}")
+
+
+main()
