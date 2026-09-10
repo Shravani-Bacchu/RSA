@@ -1,5 +1,6 @@
 import math
 import random
+import time
 
 # initialises variables for inputs
 p = int(input("Enter an integer number"))
@@ -58,9 +59,7 @@ def naive_attack(n):
     return "n is prime"
 
 
-
-
-# primality test
+#primality test
 def primality_check(n, k=20):
     if n < 2:
         return False
@@ -133,5 +132,21 @@ def main():
         print(f"The actual value of d is {d}")
         print(f"The value of d is {d_recovered}")
 
+#version used to time attack
+def naive_factoring_attack(bit_sizes, k = 20):
+    results = []
+    for bit in bit_sizes:
+        p = generate_bits(bit,k)
+        q = generate_bits(bit,k)
+        n = p * q
+        start = time.perf_counter()
+        naive_attack(n)
+        end = time.perf_counter()
+        elapsed = end - start
+        results.append((bit,n,elapsed))
+        print(f"bits={bit}, n={n}, time={elapsed:.3f}s")
 
-main()
+
+
+#main()
+naive_factoring_attack([16, 24, 32, 40, 48])
