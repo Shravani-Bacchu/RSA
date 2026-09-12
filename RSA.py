@@ -1,7 +1,7 @@
 import math
 import random
 import time
-
+import matplotlib.pyplot as plt
 # initialises variables for inputs
 p = int(input("Enter an integer number"))
 q = int(input("Enter another integer number"))
@@ -132,21 +132,23 @@ def main():
         print(f"The actual value of d is {d}")
         print(f"The value of d is {d_recovered}")
 
-#version used to time attack
-def naive_factoring_attack(bit_sizes, k = 20):
-    results = []
-    for bit in bit_sizes:
-        p = generate_bits(bit,k)
-        q = generate_bits(bit,k)
-        n = p * q
-        start = time.perf_counter()
-        naive_attack(n)
-        end = time.perf_counter()
-        elapsed = end - start
-        results.append((bit,n,elapsed))
-        print(f"bits={bit}, n={n}, time={elapsed:.3f}s")
+
+def rsa_setup(bits,k):
+    p = generate_bits(bits,k)
+    q = generate_bits(bits,k)
+    n = p * q
+    phi = (p-1) * (q-1)
+    e = 3
+    while is_valid_e(e,phi) == False:
+        e +=2
+
+    g,x,y = eea(e,phi)
+    d = x % phi
+    print(n,e,d)
+
+
 
 
 
 #main()
-naive_factoring_attack([16, 24, 32, 40, 48])
+#naive_factoring_attack([16, 24, 32 ])
