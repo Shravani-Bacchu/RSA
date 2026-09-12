@@ -154,9 +154,23 @@ def crack_rsa(n,e,cipher):
     recovered_d = x % recovered_phi
     message = powerMod(cipher, recovered_d,n)
     print(message)
-    
 
 
+def naive_factoring_attack(bit_sizes,k):
+    results = []
+    for bit in bit_sizes:
+        n,e,d = rsa_setup(bit_sizes,k)
+        message = 42
+        cipher = powerMod(message,e,n)
+        start_time = time.time()
+        cracked_message = crack_rsa(n,e,cipher)
+        end_time = time.time()
+
+        time_taken = end_time - start_time
+        success = bool(cracked_message = message)
+        results = results.append(bit_sizes,n,time_taken,success)
+        print(bit_sizes,n,time_taken,success)
+    return results 
 
 
 
