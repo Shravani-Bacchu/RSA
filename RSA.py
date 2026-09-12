@@ -171,8 +171,25 @@ def naive_factoring_attack(bit_sizes):
         print(bit,n,time_taken,success)
     return results 
 
+def plot_graphs():
+    bit_sizes = []
+    times = []
+    results = naive_factoring_attack([16, 20, 24, 28])
+    for row in results:
+        bit_sizes.append(row[0])
+        times.append(row[2])
+
+    plt.plot(bit_sizes,times,marker="o")
+    #plt.yscale("log")
+    plt.xlabel("Key size (bits)")
+    plt.ylabel("Time to crack (seconds)")
+    plt.title("Cracking Time vs key size")
+    plt.grid(True, which="both", ls="--", alpha=0.4)
+    plt.savefig("naive_attack_plot.png")
+    plt.show()
 
 
 
 #main()
-naive_factoring_attack([16, 24, 32])
+#naive_factoring_attack([16, 24, 32])
+plot_graphs()
