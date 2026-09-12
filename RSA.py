@@ -147,6 +147,17 @@ def rsa_setup(bits,k):
     print(n,e,d)
 
 
+def crack_rsa(n,e,cipher):
+    recovered_p, recovered_q = naive_attack(n)
+    recovered_phi = (recovered_p - 1) * (recovered_q - 1)
+    g , x, y = eea(e, recovered_phi)
+    recovered_d = x % recovered_phi
+    message = powerMod(cipher, recovered_d,n)
+    print(message)
+    
+
+
+
 
 
 
