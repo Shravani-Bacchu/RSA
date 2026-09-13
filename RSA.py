@@ -2,27 +2,15 @@ import math
 import random
 import time
 import matplotlib.pyplot as plt
-# initialises variables for inputs
-p = int(input("Enter an integer number"))
-q = int(input("Enter another integer number"))
-
-n = p * q
-phi = (p - 1) * (q - 1)
-tot = phi
-
-
-# greatest common divisor -> think this is what's used to see if e is valid but idk
+# function to find the greatest common divisor 
 def gcd(p, q):
     while q != 0:
         p, q = q, p % q
     return p
 
-
 def is_valid_e(e, tot):
     return gcd(e, tot) == 1
 
-
-e = int(input("Enter a value of e"))
 # extended eulers algorithm
 
 def eea(a, b):
@@ -32,11 +20,6 @@ def eea(a, b):
     x = y1
     y = x1 - (a // b) * y1
     return g, x, y
-
-
-g, x, y = eea(e, tot)
-d = x % tot
-
 
 # power mod function
 def powerMod(a, b, n):
@@ -74,11 +57,11 @@ def primality_check(n, k=20):
         d = d // 2
         r += 1
 
-    for _ in range(k):
+    for _ in range(k):                    
         a = random.randint(2, n - 2)
         x = powerMod(a, d, n)
         if x == 1 or x == n - 1:
-            continue
+            continue                      
 
         for _ in range(r - 1):
             x = powerMod(x, 2, n)
@@ -86,7 +69,6 @@ def primality_check(n, k=20):
                 break
         else:
             return False
-
     return True
 
 
@@ -96,23 +78,18 @@ def generate_bits(bits, k=20):
         candidate |= (1 << bits -1) | 1
         if primality_check(candidate, k ):
             return candidate
-
-
+        
 def main():
     bits = int(input("Enter bit-lengths for p and q"))
     p = generate_bits(bits)
     q = generate_bits(bits)
-    n = p * q
-    phi = (p - 1) * (q - 1)
-    e = int(input("Enter a value of e: "))
-    while not (is_valid_e(e, phi) and 1 < e < phi):
     n = p*q
     phi = (p-1) * (q-1)
     print(f"p = {p}, q = {q}, n = {n}")
     e = int(input("Enter a value of e: "))         
     while not (is_valid_e(e, phi) and 1 < e < phi): 
         e = int(input("Enter a value of e: "))
-    print(f"The value of e chosen is {e}")
+    print(f"The value of e chosen is {e}")    
     g, x, y = eea(e, phi)
     d = x % phi
     mode = input("Enter E for encryption, D for decryption and N for the naive factoring attack")
@@ -132,7 +109,7 @@ def main():
         print(f"The actual value of d is {d}")
         print(f"The value of d is {d_recovered}")
 
-
+#function that sets up the RSA algorithm
 def rsa_setup(bits,k):
     p = generate_bits(bits,k)
     q = generate_bits(bits,k)
@@ -145,7 +122,7 @@ def rsa_setup(bits,k):
     g,x,y = eea(e,phi)
     d = x % phi
     return n,e,d
-
+#crack ciphertext function
 def crack_rsa(n,e,cipher):
     recovered_p, recovered_q = naive_attack(n)
     recovered_phi = (recovered_p - 1) * (recovered_q - 1)
@@ -154,7 +131,7 @@ def crack_rsa(n,e,cipher):
     message = powerMod(cipher, recovered_d,n)
     return message
 
-
+#naive factoring attack
 def naive_factoring_attack(bit_sizes):
     results = []
     for bit in bit_sizes:
@@ -170,7 +147,7 @@ def naive_factoring_attack(bit_sizes):
         results.append((bit,n,time_taken,success))
         print(bit,n,time_taken,success)
     return results 
-
+#function that plots the graph
 def plot_graphs():
     bit_sizes = []
     times = []
@@ -187,9 +164,9 @@ def plot_graphs():
     plt.grid(True, which="both", ls="--", alpha=0.4)
     plt.savefig("naive_attack_plot.png")
     plt.show()
+naive_factoring_attack([16, 24, 32])
 
 
 
-#main()
-#naive_factoring_attack([16, 24, 32])
 plot_graphs()
+main()
